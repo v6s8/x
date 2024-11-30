@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>WeChat</title>
+    <link rel="icon" href="./favicon.ico">
+    <style>
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(145deg, #fdcbf1, #e6dee9, #a1c4fd, #a8edea, #d299c2);
+            background-size: 400% 400%; /* 提高背景缩放范围，增加变化幅度 */
+            z-index: -1;
+            transform: rotate(0deg);
+            animation: colorSpiral 12s ease-in-out infinite; /* 使用 ease-in-out 让动画更加自然 */
+        }
+
+        @keyframes colorSpiral {
+            0% { background-position: 0% 50%; }
+            25% { background-position: 50% 100%; }
+            50% { background-position: 100% 50%; }
+            75% { background-position: 50% 0%; }
+            100% { background-position: 0% 50%; }
+        }
+        .container {
+            position: absolute; /* 使容器可以相对于其正常位置进行定位 */
+            transform: translate(-50%, -50%); /* 水平和垂直居中容器 */
+            left: 50%; /* 从左边定位到50% */
+            top: 50%; /* 从上边定位到50% */
+            background-color: hsla(0, 0%, 100%, 0.4); 
+            backdrop-filter: blur(10px);
+            border-radius: 15px ;
+            min-width: 350px; /* 设置最小宽度 */
+            max-width: 400px;
+            display: flex; /* 使用Flexbox布局 */
+            flex-direction: column; /* 垂直排列子元素 */
+            align-items: center; /* 水平居中子元素 */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        img {
+            width: 90%;
+            height: 100%;
+            margin: 10px auto;
+            border-radius: 10px 
+        }
+        button {
+            border-radius: 28px; 
+            color: #ffffff; /* 按钮文本颜色 */
+            width: 70%; 
+            height: 36px; 
+            background: #44c767; 
+            border: solid #18ab29 1px;
+            text-decoration: none; 
+            font-size: 18px;
+            margin: 0px 0px 15px 0px; /* 上边距为0，右边距为12，下边距为14，左边距为1 */
+        }
+        button:hover {
+            background: linear-gradient(145deg, #50f000, #38b200);
+            transform: scale(1.05);
+        }
+        #weChatId {
+            font-size: 16px; /* 设置字体大小 */
+            color: rgb(2, 2, 2); /* 设置字体颜色 */
+            font-weight: bold;
+        }
+        #weChatId:hover {
+            color: red; /* 鼠标悬停时改变字体颜色 */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <p><span id="weChatId"></span></p>
+        <button id="copyButton">复 制 微 信 号</button>
+        <img src="./biubiu.png" alt="微信二维码">
+    </div>
+
+    <script type="text/javascript">
+        const wId = "YYHH8022"; // 微信号
+        document.getElementById('weChatId').textContent = "微信号: "+wId;
+
+        async function copyAndRedirect() {
+            try {
+                await navigator.clipboard.writeText(wId);
+                window.location.href = 'weixin://dl'; // 跳转到微信应用
+            } catch (error) {
+                alert('复制失败, 请手动输入 ' + wId);
+            }
+        }
+
+        document.getElementById('copyButton').addEventListener('click', copyAndRedirect);
+
+        // 禁止右键菜单
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        // 禁止 F12 打开开发者工具
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'F12' || e.keyCode === 123) {
+                e.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html>
